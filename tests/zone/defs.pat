@@ -32,4 +32,18 @@ zpool create tstpool /tstzones/dsk
 zfs create -o mountpoint=/tstzones/mnt tstpool/tstfs
 ]
 end
+
+take XCli do
+warn "Fix this"
+>[
+chmod 700 /tstzones/mnt
+]
+>[
+ls -pld /tstzones/mnt
+]
+<[
+/drwx------   .* .tstzones.mnt.$/
+]
+end
+
 end

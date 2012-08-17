@@ -10,19 +10,19 @@ setup
 take XCli do
 warn "Fix this"
 >[
-chmod 700 /zones/mnt
+chmod 700 /tstzones/mnt
 ]
 >[
-ls -pld /zones/mnt
+ls -pld /tstzones/mnt
 ]
 <[
-/drwx------   .* .zones.mnt.$/
+/drwx------   .* .tstzones.mnt.$/
 ]
 end
 
 take PuppetCli do
 >[
-apply -e "zone {smzone : ensure=>running, iptype=>shared, path=>'/zones/mnt' }"
+apply -e "zone {smzone : ensure=>running, iptype=>shared, path=>'/tstzones/mnt' }"
 ]
 <[
 /ensure: created/
@@ -44,7 +44,7 @@ zoneadm -z smzone list -v
 end
 
 >[
-apply -e "zone {smzone : ensure=>configured, iptype=>shared, path=>'/zones/mnt' }"
+apply -e "zone {smzone : ensure=>configured, iptype=>shared, path=>'/tstzones/mnt' }"
 ]
 <[
 /ensure changed 'running' to 'configured'/
@@ -52,7 +52,7 @@ apply -e "zone {smzone : ensure=>configured, iptype=>shared, path=>'/zones/mnt' 
 
 take XCli do
 >[
-ls -pld /zones
+ls -pld /tstzones
 ]
 >[
 (zoneadm -z smzone verify ; echo yes)
