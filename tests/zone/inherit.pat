@@ -1,4 +1,4 @@
-title 'zone inherit path related'
+title 'zone inherit path functionality.'
 #cr '0'
 take PuppetCli do
 
@@ -9,10 +9,15 @@ unless %x[uname -r] =~ /5.10/
   return 1
 end
 
+use 'tests/zone/defs'
+
+clean
+setup
+
 # Make sure that the zone is absent.
 # --------------------------------------------------------------------
 >[
-apply -e 'zone {z3 : ensure=>absent}'
+apply -e 'zone {tstzone : ensure=>absent}'
 ]
 <[
 /Finished catalog run in .*/
@@ -21,7 +26,7 @@ apply -e 'zone {z3 : ensure=>absent}'
 # Make it configured
 # --------------------------------------------------------------------
 >[
-apply -e 'zone {z3 : ensure=>configured, path=>"/export/z3", inherit=>"/usr" }'
+apply -e 'zone {tstzone : ensure=>configured, path=>"/tstzones/mnt", inherit=>"/usr" }'
 ]
 <[
 /ensure: created/
@@ -31,17 +36,19 @@ apply -e 'zone {z3 : ensure=>configured, path=>"/export/z3", inherit=>"/usr" }'
 # --------------------------------------------------------------------
 
 >[
-apply -e 'zone {z3 : ensure=>configured, path=>"/export/z3", inherit=>"/usr" }'
+apply -e 'zone {tstzone : ensure=>configured, path=>"/tstzones/mnt", inherit=>"/usr" }'
 ]
 <[
 ?ensure: created?
 ]
 
 >[
-apply -e 'zone {z3 : ensure=>configured, path=>"/export/z3", inherit=>["/usr","/sbin"] }'
+apply -e 'zone {tstzone : ensure=>configured, path=>"/tstzones/mnt", inherit=>["/usr","/sbin"] }'
 ]
 <[
 /ensure: created/
 ]
 
 end
+
+clean
