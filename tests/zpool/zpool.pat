@@ -1,44 +1,50 @@
 title 'zpool related'
+
 #cr '0'
+
+def clean
+take XCli do
+>[
+zpool destroy tstpool
+rm -rf /ztstpool/
+]
+end
+
+end
+
+clean
 
 take XCli do
 >[
-rm -rf dsk*
-mkfile 100m dsk1 dsk2 dsk3 dsk5
-mkfile 50m dsk4
+mkdir -p /ztstpool/mnt
+mkfile 100m /ztstpool/dsk1 /ztstpool/dsk2 /ztstpool/dsk3 /ztstpool/dsk5
+mkfile 50m /ztstpool/dsk4
 ]
 end
 
 take PuppetCli do
 >[
-resource zpool mypool ensure=absent
-]
-<[
-/.*/
-]
-
->[
-apply -e "zpool{ mypool: ensure=>present, disk=>'$(pwd)/dsk1' }"
+apply -e "zpool{ tstpool: ensure=>present, disk=>'/ztstpool/dsk1' }"
 ]
 <[
 /ensure: created/
 ]
 
 >[
-apply -e "zpool{ mypool: ensure=>present, disk=>'$(pwd)/dsk1' }"
+apply -e "zpool{ tstpool: ensure=>present, disk=>'/ztstpool/dsk1' }"
 ]
 <[
 ?ensure: created?
 ]
 >[
-apply -e "zpool{ mypool: ensure=>absent }"
+apply -e "zpool{ tstpool: ensure=>absent }"
 ]
 <[
 /ensure: removed/
 ]
 
 >[
-apply -e "zpool{ mypool: ensure=>present, disk=>['$(pwd)/dsk1','$(pwd)/dsk2'] }"
+apply -e "zpool{ tstpool: ensure=>present, disk=>['/ztstpool/dsk1','/ztstpool/dsk2'] }"
 ]
 <[
 /ensure: created/
@@ -49,12 +55,12 @@ take XCli do
 zpool list -H
 ]
 <[
-/mypool/
+/tstpool/
 ]
 end
 
 >[
-resource zpool mypool
+resource zpool tstpool
 ]
 <[
 /ensure => 'present'/
@@ -62,14 +68,14 @@ resource zpool mypool
 ]
 
 >[
-apply -e "zpool{ mypool: ensure=>absent }"
+apply -e "zpool{ tstpool: ensure=>absent }"
 ]
 <[
 /ensure: removed/
 ]
 
 >[
-apply -e "zpool{ mypool: ensure=>present, mirror=>['$(pwd)/dsk1','$(pwd)/dsk2', '$(pwd)/dsk3'] }"
+apply -e "zpool{ tstpool: ensure=>present, mirror=>['/ztstpool/dsk1','/ztstpool/dsk2', '/ztstpool/dsk3'] }"
 ]
 <[
 /ensure: created/
@@ -77,29 +83,29 @@ apply -e "zpool{ mypool: ensure=>present, mirror=>['$(pwd)/dsk1','$(pwd)/dsk2', 
 
 take XCli do
 >[
-zpool status -v mypool
+zpool status -v tstpool
 ]
 <[
-/mypool/
+/tstpool/
 /mirror/
 ]
 end
 
 >[
-resource zpool mypool
+resource zpool tstpool
 ]
 <[
 /ensure => 'present'/
 /mirror => .'.+dsk1 .+dsk2 .+dsk3'./
 ]
 >[
-apply -e "zpool{ mypool: ensure=>absent }"
+apply -e "zpool{ tstpool: ensure=>absent }"
 ]
 <[
 /ensure: removed/
 ]
 >[
-apply -e "zpool{ mypool: ensure=>present, raidz=>['$(pwd)/dsk1','$(pwd)/dsk2', '$(pwd)/dsk3'] }"
+apply -e "zpool{ tstpool: ensure=>present, raidz=>['/ztstpool/dsk1','/ztstpool/dsk2', '/ztstpool/dsk3'] }"
 ]
 <[
 /ensure: created/
@@ -107,15 +113,16 @@ apply -e "zpool{ mypool: ensure=>present, raidz=>['$(pwd)/dsk1','$(pwd)/dsk2', '
 
 take XCli do
 >[
-zpool status -v mypool
+zpool status -v tstpool
 ]
 <[
-/mypool/
+/tstpool/
 /raidz/
 ]
 end
+
 >[
-resource zpool mypool
+resource zpool tstpool
 ]
 <[
 /ensure => 'present'/
@@ -123,3 +130,5 @@ resource zpool mypool
 ]
 
 end
+
+clean
