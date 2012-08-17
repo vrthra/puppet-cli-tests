@@ -937,6 +937,9 @@ class PatObject
       self.instance_eval myfile, tc
     end
   end
+  def stop
+    Process.kill('STOP', $$)
+  end
   #====================================
   #loggging
   def cr(cr)
