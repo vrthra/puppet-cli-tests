@@ -47,8 +47,8 @@ take FileConn, '/lib/svc/method/myapp', 'w' do
 
 case "$1" in
   start) nohup /opt/bin/myapp & ;;
-  stop) pkill -9 myapp ;;
-  refresh) pkill -9 myapp ; nohup /opt/bin/myapp & ;;
+  stop) kill -9 $(cat /tmp/my.pidfile) ;;
+  refresh) kill -9 $(cat /tmp/my.pidfile) ; nohup /opt/bin/myapp & ;;
   *) echo "Usage: $0 { start | stop | refresh }" ; exit 1 ;;
 esac
 
@@ -59,6 +59,7 @@ end
 
 take FileConn, '/opt/bin/myapp', 'w' do
 >[
+echo $$ > /tmp/my.pidfile
 sleep 5
 ]
 end
@@ -106,6 +107,9 @@ take XCli do
 >[
 svccfg -v validate /var/svc/manifest/application/myapp.xml
 ]
+>[
+echo "" > /var/svc/log/application-myapp:default.log
+]
 end
 # --------------------------------------------------------------------
 
@@ -133,7 +137,7 @@ svcs -l application/myapp
 >[
 cat /var/svc/log/application-myapp:default.log
 ]
->[
+<[
 /.*/
 ]
 end
