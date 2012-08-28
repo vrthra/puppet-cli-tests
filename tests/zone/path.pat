@@ -51,7 +51,7 @@ apply -e 'zone {z3 : ensure=>configured, iptype=>shared, path=>"/export/z4" }'
 /Finished catalog run/
 ]
 
-take Cli do
+take XCli do
 >[
 /usr/sbin/zonecfg -z z3 export
 ]
@@ -68,7 +68,7 @@ apply -e 'zone {z3 : ensure=>configured, iptype=>shared, path=>"/export/z3" }'
 /Finished catalog run/
 ]
 
-take Cli do
+take XCli do
 >[
 /usr/sbin/zonecfg -z z3 export
 ]
@@ -91,7 +91,7 @@ apply -e 'zone {z3 : ensure=>installed, path=>"/export/z4" }'
 /Failed to apply configuration/
 ]
 
-take Cli do
+take XCli do
 >[
 /usr/sbin/zonecfg -z z3 export
 ]

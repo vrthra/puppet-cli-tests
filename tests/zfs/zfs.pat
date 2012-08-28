@@ -43,6 +43,20 @@ apply -e "zfs { 'zfspool/myfs': ensure=>present }"
 <[
 /ensure: created/
 ]
+
+>[
+apply -e "zfs { 'zfspool/myfs': ensure=>present }"
+]
+<[
+?ensure: created?
+]
+
+>[
+apply -e "zfs { 'zfspool/myfs': ensure=>absent }"
+]
+<[
+/ensure: removed/
+]
 end
 
 
