@@ -1,6 +1,13 @@
 cr '0'
 title 'zone'
-take PuppetCli
+take PuppetCli do
+
+# --------------------------------------------------------------------
+# inherit was removed in 5.11
+unless %x[uname -r] =~ /5.10/
+  show 'We can not run on Solaris 11'
+  return 1
+end
 
 # Make sure that the zone is absent.
 # --------------------------------------------------------------------
@@ -37,4 +44,4 @@ apply -e 'zone {z3 : ensure=>configured, path=>"/export/z3", inherit=>["/usr","/
 /ensure: created/
 ]
 
-
+end
