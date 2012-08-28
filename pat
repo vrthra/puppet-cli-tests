@@ -1122,10 +1122,10 @@ class Seq
     else
       txt = Dir[@store.seq]
       if txt.length != 0
-        tc += compile(txt.grep(/(.+)\.pat/).collect{|l| l.sub(/\.pat$/,'')}, Conf.new)
+        tc += compile('',txt.grep(/(.+)\.pat/).collect{|l| l.sub(/\.pat$/,'')}, Conf.new)
       else
         if @store.seq =~ /\.pat$/
-          tc += compile(@store.seq.sub(/\.pat$/,''), Conf.new)
+          tc += compile('',@store.seq.sub(/\.pat$/,''), Conf.new)
         end
       end
       process(@store.seq,tc)
