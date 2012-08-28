@@ -24,25 +24,28 @@ module Patlog
       return true if @options.verbose > num
     end
     def cr(cr)
-      out "cr:#{cr}" if v(3)
+      out (":\t##{cr}").cyan if v(0)
     end
     def title(title)
-      out "[#{title}]" if v(3)
+      out (":\t#{title}" ).yellow
     end
     def show(info)
       out info
     end
+    def pending(info)
+      out ("pending: #{pending}").cyan
+    end
     def cause(arg)
-      out "Cause: " + arg
+      out ("Cause: " + arg).red
     end
     def fail(fail)
-      out "Error: " + fail
+      out ("Error: " + fail).red
     end
     def error(fail)
-      out "Fatal: " + fail
+      out ("Fatal: " + fail).red
     end
     def info(info)
-      out info if v(0)
+      out info if v(1)
     end
     def verbose(info)
       out info if v(10)
@@ -70,7 +73,7 @@ module Patlog
     def response(data)
       if $gopt['showdebug'] && !data.nil?
         data.each {|str|
-          out "#{'>'.cyan} #{str}"
+          out "#{str.chomp.cyan}"
         }
       end
     end
@@ -558,7 +561,6 @@ include Patlog
 DAY = 60*60*24
 $active_connections = []
 
-#perhaps I should have used webrick and net/http[s] but being a control freak..
 #==============================================
 class Chunk
   def initialize()
@@ -935,6 +937,12 @@ class PatObject
   end
   def info(info)
     @log.info info
+  end
+  def show(info)
+    @log.show info
+  end
+  def pending(info)
+    @log.pending info
   end
   def log_request(data)
     @log.request(data)
