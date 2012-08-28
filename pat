@@ -668,6 +668,10 @@ class EConf < Chunk
 end
 
 class Conf < Chunk
+  def initialize(base='')
+    @base = base
+    super()
+  end
   def process(line)
     test = line[/[^\[]+/]
       if line =~ /\[([^\]]+)\]/
@@ -681,9 +685,9 @@ class Conf < Chunk
       line = l.chomp.rstrip.lstrip
       next if line.empty?
       if  line =~ /^[ \t]*#.*$/
-        @source << "#runtest '#{process(line)}'"
+        @source << "#runtest '#{@base + process(line)}'"
       else
-        @source << "runtest '#{process(line)}'"
+        @source << "runtest '#{@base + process(line)}'"
       end
     end
     return @source
@@ -1133,18 +1137,19 @@ class Seq
   def use(seq)
     txt = @store.io.getlines(seq + '.seq')
     return if txt.nil?
-    tc = compile(txt, EConf.new)
+    dn = File.dirname(seq + '.seq') + '/'
+    tc = compile(dn, txt, EConf.new)
     process(seq + '.seq',tc)
   end
 
-  def compile(txt,obj)
+  def compile(base, txt,obj)
     tc = []
     txt.each {|line|
       #switch based on the line start
       case line
       when /^ *\[/  #start of seq
         tc << obj
-        obj = Conf.new()
+        obj = Conf.new(base)
       when /^ *\] *$/  #end seq
         tc << obj
         obj = EConf.new()
@@ -1165,6 +1170,9 @@ class Seq
         src << t.compile
       }
       s = src.join("\n")
+      #----------XXX
+      puts s if $debug_seq
+      #----------XXX
       if @store.options.dump
         File.open(seq + '.rb', 'w') {|f|
           f << s
