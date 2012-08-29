@@ -26,3 +26,11 @@ Do NOT trust Puppet
 
 DO NOT TRUST PUPPET
 
+Adding new tests
+===============
+
+- Use platform specific tools to ensure that we are starting on a clean slate,
+- Use the external tools to setup the environment
+- Do the test with puppet
+- Verify using external tools (Do not trust puppet output)
+- Clean up using external tools
