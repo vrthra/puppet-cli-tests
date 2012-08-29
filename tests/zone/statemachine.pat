@@ -56,7 +56,7 @@ end
 
 take PuppetCli do
 >[
-apply -e "zone {smzone : ensure=>configured, iptype=>shared, path=>'/zones/mnt' }"
+apply -e "zone {smzone : ensure=>running, iptype=>shared, path=>'/zones/mnt' }"
 ]
 <[
 /ensure: created/
@@ -69,43 +69,40 @@ take XCli do
 <[
 ?could not verify?
 ]
+>[
+zoneadm -z smzone list -v
+]
+<[
+/running/
+]
 end
 
 >[
-apply -e "zone {smzone : ensure=>installed, iptype=>shared, path=>'/zones/mnt' }"
+apply -e "zone {smzone : ensure=>configured, iptype=>shared, path=>'/zones/mnt' }"
 ]
 <[
-/ensure changed 'configured' to 'installed'/
+/ensure changed 'running' to 'configured'/
 ]
 
+take XCli do
 >[
-apply -e "zone {smzone : ensure=>running, iptype=>shared, path=>'/zones/mnt' }"
+ls -pld /zones
 ]
-<[
-/ensure changed 'installed' to 'running'/
-]
-return 1
-# Make it installed
-# --------------------------------------------------------------------
 >[
-apply -e 'zone {smzone : ensure=>absent}'
-]
-<[
-/Finished catalog run in .*/
+(zoneadm -z smzone verify ; echo yes)
 ]
 
-#zfs create /rpool/zones
-#zfs create /rpool/zones/test
+<[
+?could not verify?
+]
 >[
-apply -e "zone {smzone : ensure=>installed, iptype=>shared, path=>'/zones/mnt' }"
+zoneadm -z smzone list -v
 ]
 <[
-/ensure: created/
+/configured/
 ]
-# --------------------------------------------------------------------
->[
-apply -e 'zone {smzone : ensure=>absent}'
-]
+end
+
 end
 
 clean
