@@ -1,23 +1,24 @@
 [
-zone/ip       [zone]
-zone/dataset  [zone]
-zone/inherit  [zone]
-zone/path     [zone]
+zone/statemachine [zone]
+zone/ip           [zone]
+zone/dataset      [zone]
+zone/inherit      [zone]
+zone/path         [zone]
 ]
 
 [
-zpool/zpool   [zpool]
+zpool/zpool       [zpool]
 ]
 
 [
-zfs/zfs       [zfs]
+zfs/zfs           [zfs]
 ]
 
 [
-pkg/pkg       [pkg]
+pkg/pkg           [pkg]
 ]
 
 [
-smf/service   [smf]
+smf/service       [smf]
 ]
 
