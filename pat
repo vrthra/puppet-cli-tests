@@ -26,6 +26,11 @@ module Patlog
     def cr(cr)
       out (":\t##{cr}").cyan if v(0)
     end
+    def warn(i)
+      out i.yellow if v(0)
+    end
+
+
     def title(title)
       out (":\t#{title}" ).yellow
     end
@@ -947,6 +952,9 @@ class PatObject
   end
   def show(info)
     @log.show info
+  end
+  def warn(info)
+    @log.warn info
   end
   def pending(info)
     @log.pending info
