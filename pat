@@ -930,9 +930,7 @@ class PatObject
   end
 
   def use(tc)
-    p = Pathname.new(tc)
-    #todo - place a libname in between.
-    tcase = p.dirname.to_s + '/' + p.basename.to_s
+    tcase = @store.base + tc
     parser = Parser.create(tcase, @store)
     if !parser.nil?
       myfile = parser.getsrc()
@@ -1096,6 +1094,10 @@ class PatStore
         end
       end
     end
+    @base = File.dirname($0) + '/'
+  end
+  def base
+    return @base
   end
   def io
     return @io
@@ -1148,7 +1150,7 @@ class Seq
   def use(seq)
     txt = @store.io.getlines(seq + '.seq')
     return if txt.nil?
-    dn = File.dirname(seq + '.seq') + '/'
+    dn = @store.base
     tc = compile(dn, txt, EConf.new)
     process(seq + '.seq',tc)
   end
