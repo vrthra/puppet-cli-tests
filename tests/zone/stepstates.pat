@@ -50,9 +50,7 @@ apply -e "zone {smzone : ensure=>running, iptype=>shared, path=>'/zones/mnt' }"
 <[
 /ensure changed 'installed' to 'running'/
 ]
-return 1
-# Make it installed
-# --------------------------------------------------------------------
+
 >[
 apply -e 'zone {smzone : ensure=>absent}'
 ]
@@ -60,8 +58,6 @@ apply -e 'zone {smzone : ensure=>absent}'
 /Finished catalog run in .*/
 ]
 
-#zfs create /rpool/zones
-#zfs create /rpool/zones/test
 >[
 apply -e "zone {smzone : ensure=>installed, iptype=>shared, path=>'/zones/mnt' }"
 ]
