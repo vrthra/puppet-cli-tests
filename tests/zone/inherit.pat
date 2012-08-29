@@ -1,5 +1,5 @@
-cr '0'
-title 'zone'
+title 'zone inherit path related'
+#cr '0'
 take PuppetCli do
 
 # --------------------------------------------------------------------

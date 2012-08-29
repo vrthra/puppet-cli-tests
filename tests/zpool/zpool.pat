@@ -1,14 +1,10 @@
-cr '0'
-title 'zpool'
+title 'zpool related'
+#cr '0'
 
 take XCli do
 >[
 rm -rf dsk*
-]
->[
 mkfile 100m dsk1 dsk2 dsk3 dsk5
-]
->[
 mkfile 50m dsk4
 ]
 end

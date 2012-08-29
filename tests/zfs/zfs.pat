@@ -1,6 +1,6 @@
 # Zfs
 # --------------------------------------------------------------------
-
+title 'zfs related'
 take PuppetCli do
 >[
 apply -e "zfs { 'zfspool/myfs': ensure=>absent }"

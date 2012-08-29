@@ -12,30 +12,14 @@ end
 # --------------------------------------------------------------------
 take XCli do
 >[
-rm -rf ./smf;
-]
->[
-mkdir -p ./smf;
-]
->[
+rm -rf ./smf
+mkdir -p ./smf
 svcadm disable myapp
-]
->[
 svccfg delete myapp
-]
->[
 rm -f /lib/svc/method/myapp
-]
->[
 rm -f /var/svc/manifest/application/myapp.xml
-]
->[
 rm -f /opt/bin/myapp
-]
->[
 mkdir -p /opt/bin
-]
->[
 pkill -9 -f /opt/bin/myapp
 ]
 end
@@ -111,11 +95,6 @@ svccfg -v validate /var/svc/manifest/application/myapp.xml
 echo "" > /var/svc/log/application-myapp:default.log
 ]
 end
-# --------------------------------------------------------------------
-
-#svccfg import /var/svc/manifest/application/myapp.xml
-#svcs application/myapp
-
 # --------------------------------------------------------------------
 take PuppetCli do
 >[

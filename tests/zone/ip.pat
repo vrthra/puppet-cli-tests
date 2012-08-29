@@ -1,5 +1,5 @@
-cr '0'
-title 'zone'
+#cr '0'
+title 'zone check iptype and ip configuration.'
 take PuppetCli
 
 # Make sure that the zone is absent.

@@ -1,5 +1,7 @@
 # Zone path
 # --------------------------------------------------------------------
+title 'zone path related.'
+
 take PuppetCli do
 >[
 apply -e 'zone {z3 : ensure=>absent}'
