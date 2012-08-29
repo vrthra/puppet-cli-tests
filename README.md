@@ -15,3 +15,14 @@ Usage:
     # or for a specified group(,s)
     sudo -E ./p/pat -v 1 -x debug -g zone -s p/tests/solaris.seq
 
+
+
+General Advice
+==============
+
+do not trust puppet
+
+Do NOT trust Puppet
+
+DO NOT TRUST PUPPET
+
