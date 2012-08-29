@@ -52,21 +52,23 @@ apply -e "zone {smzone : ensure=>running, iptype=>shared, path=>'/zones/mnt' }"
 ]
 
 >[
-apply -e 'zone {smzone : ensure=>absent}'
-]
-<[
-/Finished catalog run in .*/
-]
-
->[
 apply -e "zone {smzone : ensure=>installed, iptype=>shared, path=>'/zones/mnt' }"
 ]
 <[
-/ensure: created/
+/ensure changed 'running' to 'installed'/
 ]
-# --------------------------------------------------------------------
+
+>[
+apply -e "zone {smzone : ensure=>configured, iptype=>shared, path=>'/zones/mnt' }"
+]
+<[
+/ensure changed 'installed' to 'configured'/
+]
 >[
 apply -e 'zone {smzone : ensure=>absent}'
+]
+<[
+/ensure: removed/
 ]
 end
 
