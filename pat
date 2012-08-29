@@ -404,7 +404,10 @@ module Connectors
   class XCli < ConsoleClientConn
     def <<(cmd)
       @cmdstr = cmd
-      @cmd = `#{@cmdstr.chomp}`.split("\n")
+      @cmd = []
+      @cmdstr.split("\n").each do |c|
+        @cmd += `#{c.chomp}`.split("\n")
+      end
     end
 
     def readlines
