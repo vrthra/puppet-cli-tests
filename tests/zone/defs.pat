@@ -1,13 +1,13 @@
 def clean
 take XCli do
 >[
-zoneadm -z smzone halt
-zoneadm -z smzone uninstall -F
-zonecfg -z smzone delete -F
-rm -f /etc/zones/smzone.xml
-zfs destroy -r smpool/smfs
-zpool destroy smpool
-rm -rf /zones
+zoneadm -z tstzone halt
+zoneadm -z tstzone uninstall -F
+zonecfg -z tstzone delete -F
+rm -f /etc/zones/tstzone.xml
+zfs destroy -r tstpool/tstfs
+zpool destroy tstpool
+rm -rf /tstzones
 ]
 end
 end
@@ -15,21 +15,21 @@ end
 def setup
 take XCli do
 >[
-mkdir -p /zones/mnt
-chmod -R 700 /zones
-mkfile 512m /zones/dsk
+mkdir -p /tstzones/mnt
+chmod -R 700 /tstzones
+mkfile 512m /tstzones/dsk
 ]
 >[
-ls -pld /zones
-ls -pld /zones/mnt
+ls -pld /tstzones
+ls -pld /tstzones/mnt
 ]
 <[
-/drwx------   .* .zones.$/
-/drwx------   .* .zones.mnt.$/
+/drwx------   .* .tstzones.$/
+/drwx------   .* .tstzones.mnt.$/
 ]
 >[
-zpool create smpool /zones/dsk
-zfs create -o mountpoint=/zones/mnt smpool/smfs
+zpool create tstpool /tstzones/dsk
+zfs create -o mountpoint=/tstzones/mnt tstpool/tstfs
 ]
 end
 end
