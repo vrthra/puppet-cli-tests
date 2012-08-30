@@ -15,7 +15,7 @@ zfs/zfs           [zfs]
 ]
 
 [
-pkg/pkg           [pkg]
+ips/pkg           [pkg]
 ]
 
 [
